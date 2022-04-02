@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+.container {
+	margin: auto;
+	padding: 4rem;
+	text-align: center;
+	background: white;
+	
+}
+
+.list {
+	display: inline-block;
+	margin: 20px;
+}
+
+.list p {
+	text-align: left;
+	line-height: 1;
+	margin: 10px;
+}
+
+button{
+  color: #666666;
+  background-color: #F2F2F2;
+  border: 1px solid #A7A7A7;
+  border-radius: 5px;
+}
