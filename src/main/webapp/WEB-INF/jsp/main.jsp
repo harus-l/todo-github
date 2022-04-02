@@ -13,7 +13,7 @@
 <body>
 	<div class="container">
 		<h1>Todoリスト</h1>
-		<form action="/Main" method="post">
+		<form action="/" method="post">
 			<!-- テキスト入力欄 -->
 			<div class="input">
 				Todo：<input type="text" name="text">
