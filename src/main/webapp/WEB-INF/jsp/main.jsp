@@ -13,7 +13,7 @@
 <body>
 	<div class="container">
 		<h1>Todoリスト</h1>
-		<form action="/todo-mvn/Main" method="post">
+		<form action="/Main" method="post">
 			<!-- テキスト入力欄 -->
 			<div class="input">
 				Todo：<input type="text" name="text">
