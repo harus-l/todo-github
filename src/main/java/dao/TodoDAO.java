@@ -1,5 +1,6 @@
 package dao;
 
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,15 +13,16 @@ import model.Todo;
 
 public class TodoDAO {
 	//データベース接続に使用する情報
-	private final String JDBC_URL = "jdbc:mysql://localhost:3306/todolist";
-	private final String DB_USER = "todouser";
-	private final String DB_PASS = "todopass";
+	private static Connection getConnection() throws URISyntaxException, SQLException {
+	    String dbUrl = System.getenv("JDBC_DATABASE_URL");
+	    return DriverManager.getConnection(dbUrl);
+	}
 	
 	public List<Todo> findAll() {
 		List<Todo> todoList = new ArrayList<>();
 		
 		//データベース接続
-		try(Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try(Connection conn = getConnection()) {
 			//SELCT文の準備
 			String sql = "SELECT * FROM TODOLIST";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -38,13 +40,16 @@ public class TodoDAO {
 		} catch(SQLException e) {
 			e.printStackTrace();
 			return null;
+		} catch(URISyntaxException e) {
+			e.printStackTrace();
+			return null;
 		}
 		return todoList;
 	}
 	
 	public boolean create(Todo todo) {
 		//データベース接続
-		try(Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try(Connection conn = getConnection()) {
 			
 			//INSERT文の準備
 			String sql = "INSERT INTO TODOLIST(TEXT) VALUES(?)";
@@ -61,13 +66,16 @@ public class TodoDAO {
 		}catch(SQLException e) {
 			e.printStackTrace();
 			return false;
+		} catch(URISyntaxException e) {
+			e.printStackTrace();
+			return false;
 		}
 		return true;
 	}
 	
 	public boolean delete(Todo todo) {
 		//データベース接続
-		try(Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try(Connection conn = getConnection()) {
 			
 			//DELETE文の準備
 			String sql = "DELETE FROM TODOLIST WHERE(ID=?)";
@@ -85,6 +93,9 @@ public class TodoDAO {
 		}catch(SQLException e) {
 			e.printStackTrace();
 			return false;
+		} catch(URISyntaxException e) {
+			e.printStackTrace();
+			return false;
 		}
 		return true;
 	}
@@ -93,7 +104,7 @@ public class TodoDAO {
 		int count = 0;
 		
 		//データベース接続
-		try(Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try(Connection conn = getConnection()) {
 			//SELCT COUNT文の準備
 			String sql = "SELECT COUNT(*) FROM TODOLIST";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -106,6 +117,9 @@ public class TodoDAO {
 				count = rs.getInt(1);
 			}
 		} catch(SQLException e) {
+			e.printStackTrace();
+			return 0;
+		} catch(URISyntaxException e) {
 			e.printStackTrace();
 			return 0;
 		}
